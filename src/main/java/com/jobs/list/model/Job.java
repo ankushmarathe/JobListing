@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+
 public class Job {
 
 	private String jobTitle;

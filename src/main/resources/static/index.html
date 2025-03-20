@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Job Listings</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .job-list { list-style-type: none; padding: 0; }
+        .job-item { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .job-title { font-weight: bold; font-size: 1.2em; }
+        .job-link { color: rgb(64, 0, 64); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <h1>Latest Job Listings</h1>
+    <button onclick="loadJobs()">Get Jobs</button>
+    <script async src="https://cse.google.com/cse.js?cx=84b55b4ca9a394d34">
+</script>
+<div class="gcse-search"></div>
+     <div id="spinner" class="spinner"></div>
+    <ul id="jobList" class="job-list"></ul>
+
+    <script>
+        function loadJobs() {
+	let spinner = document.getElementById("spinner");
+            fetch('/jobs/search')
+                .then(response => response.json()) // Parse JSON
+                .then(data => {
+                    let jobList = document.getElementById("jobList");
+                    jobList.innerHTML = ""; // Clear previous data
+
+                    data.jobs.forEach(job => {
+                        let li = document.createElement("li");
+                        li.classList.add("job-item");
+                        li.innerHTML = `
+                            <span class="job-title">${job.jobTitle}</span> <br>
+                            Company: ${job.company} <br>
+                            Location: ${job.location} <br>
+                            Posted: ${job.posted} <br>
+                            <a href="${job.url}" class="job-link" target="_blank">Apply Now</a>
+                        `;
+                        jobList.appendChild(li);
+                    });
+                })
+                .catch(error => { spinner.style.display = "none";
+                console.error("Error:", error)}
+                );
+        }
+    </script>
+
+</body>
+</html>

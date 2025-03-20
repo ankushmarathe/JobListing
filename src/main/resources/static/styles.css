@@ -1,0 +1,113 @@
+/* 🌿 Global Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f0f7f4, #dceff1);
+    text-align: center;
+    color: #333;
+}
+
+/* 🏆 Page Title */
+h1 {
+    color: #222;
+    font-size: 2rem;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* 🎯 Stylish Button */
+button {
+    background: linear-gradient(135deg, #8fd19e, #5fbf7b); /* Light Green */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #6dc97a, #4fa265); /* Darker Green */
+    transform: scale(1.05);
+}
+
+/* 📜 Job List Container */
+.job-list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+/* 🔥 Job Card */
+.job-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: left;
+    border-left: 5px solid #ffb6b6; /* Light Red */
+}
+
+.job-item:hover {
+    transform: translateY(-5px);
+    border-left: 5px solid rgb(0, 128, 0); /* Slightly Darker Red */
+}
+
+/* ✨ Job Title */
+.job-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #5fbf7b; /* Light Green */
+}
+
+/* 📍 Job Details */
+.job-item div {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* 🚀 Apply Link */
+.job-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgb(128, 255, 128), rgb(128, 255, 128)); /* Light Red */
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.job-link:hover {
+    background: linear-gradient(135deg, rgb(128, 255, 128), rgb(0, 255, 128)); /* Darker Red */
+    transform: scale(1.05);
+}
+
+
+
+/* 🌟 Loading Spinner */
+.spinner {
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #5fbf7b; /* Light Green */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import com.jobs.list.DTO.FilterDTO;
 import com.jobs.list.DTO.TimeDTO;
 import com.jobs.list.model.Job;
 
@@ -28,7 +29,7 @@ public class CrawlService {
     private static ExecutorService executor;
     private static Set<Job> visitedUrls ;
 	
-	public Mono<TimeDTO> start(String url) {
+	public Mono<TimeDTO> start(String url, FilterDTO filterDTO) {
 		long startTime = System.currentTimeMillis();
 		executor = Executors.newFixedThreadPool(MAX_THREADS);
 		visitedUrls = Collections.synchronizedSet(new HashSet<>());
@@ -43,24 +44,29 @@ public class CrawlService {
         list.sort(Comparator.comparing(Job::getJobTitle)
                 .thenComparing(Job::getLocation)
                 .thenComparing(Job::getCompany));
+        
+        String preferredSkill = filterDTO.getSkill();       
+        String preferredLocation = filterDTO.getLocation();      
+        String preferredCompany = filterDTO.getCompany();
+
+        list.sort(Comparator.comparingInt(job -> 
+            (isMatch(job.getJobTitle(), preferredSkill) ? 0 : 1) + 
+            (isMatch(job.getLocation(), preferredLocation) ? 0 : 1) + 
+            (isMatch(job.getCompany(), preferredCompany) ? 0 : 1)
+        ));
+        
+        
         long totalTime = System.currentTimeMillis() - startTime;
         
         return Mono.just(new TimeDTO(totalTime, list));
 	}
 	
-	public Mono<Set<Job>> withOutExecutor(String url) {
-		long startTime = System.currentTimeMillis();
-		executor = Executors.newFixedThreadPool(1);
-		visitedUrls = Collections.synchronizedSet(new HashSet<>());
-	    getJobs(url, 0);
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-            System.out.println("Waiting for tasks to complete...");
+	private static boolean isMatch(String jobField, String preferredField) {
+        if (preferredField == null || preferredField.isEmpty()) {
+            return false;
         }
-
-        System.out.println("Start:- "+(System.currentTimeMillis()-startTime));
-        return Mono.just(visitedUrls);
-	}
+        return jobField != null && jobField.equalsIgnoreCase(preferredField);
+    }
 	
 	public void getJobs(String url, int depth) {
 		if (depth > MAX_DEPTH ) return;
